@@ -1,0 +1,29 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# Node
+node_modules/
+frontend/node_modules/
+dist/
+frontend/dist/
+.npm/
+
+# Local databases & uploads
+*.db
+invoices.db
+uploads/*.pdf
+uploads/*.png
+uploads/*.jpg
+reports/*.pdf
+reports/*.xlsx
+reports/*.csv
+!reports/.gitkeep
+
+# Environment
+.env
+.vercel

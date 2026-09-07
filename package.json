@@ -1,0 +1,10 @@
+{
+  "name": "intelligent-invoice-analysis-agent",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "npm --prefix frontend install && npm --prefix frontend run build",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "dev:backend": "python -m uvicorn backend.app.main:app --reload"
+  }
+}
