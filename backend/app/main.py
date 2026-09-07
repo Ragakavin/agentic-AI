@@ -80,6 +80,7 @@ app.include_router(audit_router, prefix=settings.API_V1_STR)
 app.include_router(settings_router, prefix=settings.API_V1_STR)
 app.include_router(demo_router, prefix=settings.API_V1_STR)
 
+@app.get("/health")
 @app.get("/api/health")
 def health_check():
     return {
@@ -90,6 +91,31 @@ def health_check():
         "llm_model": settings.LLM_MODEL
     }
 
+# SPA Frontend Serving
+from fastapi.responses import FileResponse
+from fastapi import HTTPException
+from pathlib import Path
+
+frontend_dist = Path(__file__).resolve().parent.parent.parent / "frontend" / "dist"
+assets_dir = frontend_dist / "assets"
+if assets_dir.is_dir():
+    app.mount("/assets", StaticFiles(directory=str(assets_dir)), name="assets")
+
+@app.get("/{full_path:path}")
+async def serve_frontend(full_path: str):
+    if full_path.startswith("api/") or full_path == "api":
+        raise HTTPException(status_code=404, detail="API endpoint not found")
+    
+    file_path = frontend_dist / full_path
+    if full_path and file_path.is_file():
+        return FileResponse(file_path)
+    
+    index_file = frontend_dist / "index.html"
+    if index_file.is_file():
+        return FileResponse(index_file)
+    return {"status": "ok", "message": "Intelligent Invoice Agent API", "path": full_path}
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("backend.app.main:app", host="0.0.0.0", port=8000, reload=True)
+
