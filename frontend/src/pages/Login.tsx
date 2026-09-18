@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Layers, ShieldCheck, ArrowRight, Lock, Mail } from 'lucide-react';
+import { Layers, ArrowRight, Lock, Mail } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 interface LoginProps {
@@ -27,7 +27,7 @@ export const Login: React.FC<LoginProps> = ({ onSuccess }) => {
     }
   };
 
-  const handleQuickLogin = async (role: string, userEmail: string) => {
+  const handleQuickLogin = async (role: string) => {
     setLoading(true);
     try {
       await switchRole(role);
@@ -109,7 +109,7 @@ export const Login: React.FC<LoginProps> = ({ onSuccess }) => {
 
           <div className="grid grid-cols-2 gap-2 text-xs">
             <button
-              onClick={() => handleQuickLogin('admin', 'admin@enterprise.ai')}
+              onClick={() => handleQuickLogin('admin')}
               className="p-2.5 rounded-xl bg-slate-50 hover:bg-emerald-50/50 border border-slate-200 text-left transition-colors"
             >
               <div className="font-bold text-slate-800">Admin</div>
@@ -117,7 +117,7 @@ export const Login: React.FC<LoginProps> = ({ onSuccess }) => {
             </button>
 
             <button
-              onClick={() => handleQuickLogin('finance_manager', 'finance@enterprise.ai')}
+              onClick={() => handleQuickLogin('finance_manager')}
               className="p-2.5 rounded-xl bg-slate-50 hover:bg-blue-50/50 border border-slate-200 text-left transition-colors"
             >
               <div className="font-bold text-slate-800">Finance Manager</div>
@@ -125,7 +125,7 @@ export const Login: React.FC<LoginProps> = ({ onSuccess }) => {
             </button>
 
             <button
-              onClick={() => handleQuickLogin('reviewer', 'reviewer@enterprise.ai')}
+              onClick={() => handleQuickLogin('reviewer')}
               className="p-2.5 rounded-xl bg-slate-50 hover:bg-amber-50/50 border border-slate-200 text-left transition-colors"
             >
               <div className="font-bold text-slate-800">Reviewer</div>
@@ -133,7 +133,7 @@ export const Login: React.FC<LoginProps> = ({ onSuccess }) => {
             </button>
 
             <button
-              onClick={() => handleQuickLogin('viewer', 'viewer@enterprise.ai')}
+              onClick={() => handleQuickLogin('viewer')}
               className="p-2.5 rounded-xl bg-slate-50 hover:bg-purple-50/50 border border-slate-200 text-left transition-colors"
             >
               <div className="font-bold text-slate-800">Viewer</div>

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Bot, Send, User, Sparkles, Wrench, RefreshCw, MessageSquare } from 'lucide-react';
+import React, { useState, useCallback } from 'react';
+import { Bot, Send, User, Sparkles, Wrench, RefreshCw } from 'lucide-react';
 import { api } from '../services/api';
 import { ChatMessage } from '../types';
 
@@ -9,7 +9,7 @@ export const AiAssistant: React.FC = () => {
       id: 'init-1',
       role: 'assistant',
       content: 'Hello! I am your Intelligent Accounts Payable AI Assistant. I have live access to your invoice repository, vendor masters, and purchase orders. How can I help verify financial compliance today?',
-      timestamp: new Date().toLocaleTimeString(),
+      timestamp: '12:00:00 PM',
       tools_used: ['get_portfolio_summary_metrics']
     }
   ]);
@@ -24,7 +24,7 @@ export const AiAssistant: React.FC = () => {
     'Which invoices currently need human review?'
   ];
 
-  const handleSend = async (textToSend?: string) => {
+  const handleSend = useCallback(async (textToSend?: string) => {
     const query = textToSend || input;
     if (!query.trim() || loading) return;
 
@@ -63,7 +63,7 @@ export const AiAssistant: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [input, loading]);
 
   return (
     <div className="max-w-4xl mx-auto space-y-5 animate-fadeIn pb-16">

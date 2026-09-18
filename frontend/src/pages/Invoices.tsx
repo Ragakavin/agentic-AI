@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
-  FileText, Search, Filter, ArrowUpDown, Download, Plus,
-  ShieldCheck, AlertTriangle, XCircle, RefreshCw, ChevronRight
+  FileText, Search, ArrowUpDown, Plus,
+  RefreshCw, ChevronRight
 } from 'lucide-react';
 import { api } from '../services/api';
 import { InvoiceSummary } from '../types';
@@ -21,11 +21,7 @@ export const Invoices: React.FC<InvoicesProps> = ({ onNavigate, initialSearch = 
   const [sortBy, setSortBy] = useState<'date' | 'amount' | 'risk'>('date');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
 
-  useEffect(() => {
-    loadInvoices();
-  }, [statusFilter, riskFilter]);
-
-  const loadInvoices = async () => {
+  const loadInvoices = useCallback(async () => {
     setLoading(true);
     try {
       const data = await api.getInvoices({
@@ -39,7 +35,11 @@ export const Invoices: React.FC<InvoicesProps> = ({ onNavigate, initialSearch = 
     } finally {
       setLoading(false);
     }
-  };
+  }, [statusFilter, riskFilter, search]);
+
+  useEffect(() => {
+    loadInvoices();
+  }, [loadInvoices]);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -125,6 +125,18 @@ export const Invoices: React.FC<InvoicesProps> = ({ onNavigate, initialSearch = 
           </div>
 
           {/* Sort Control */}
+          <div className="flex items-center gap-1 text-xs">
+            <span className="text-slate-400 font-medium">Sort:</span>
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as 'date' | 'amount' | 'risk')}
+              className="px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-700 focus:outline-none"
+            >
+              <option value="date">Date</option>
+              <option value="amount">Amount</option>
+              <option value="risk">Risk Score</option>
+            </select>
+          </div>
           <button
             onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
             className="p-1.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-600 transition-colors"

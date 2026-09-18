@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   FileText, CheckCircle2, AlertTriangle, XCircle, ShieldAlert,
-  Copy, Clock, TrendingUp, ArrowUpRight, Play, RefreshCw, BarChart2
+  Copy, Clock, ArrowUpRight, RefreshCw
 } from 'lucide-react';
 import {
   ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip,
@@ -20,10 +20,6 @@ export const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
   const [recentInvoices, setRecentInvoices] = useState<InvoiceSummary[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    loadDashboardData();
-  }, []);
-
   const loadDashboardData = async () => {
     setLoading(true);
     try {
@@ -39,6 +35,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    loadDashboardData();
+  }, []);
 
   if (loading || !analytics) {
     return (

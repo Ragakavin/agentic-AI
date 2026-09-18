@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Settings as SettingsIcon, Save, RefreshCw, Sliders, Cpu, Percent } from 'lucide-react';
+import { Save, RefreshCw, Sliders, Cpu, Percent } from 'lucide-react';
 import { api } from '../services/api';
 
 export const Settings: React.FC = () => {
@@ -7,10 +7,6 @@ export const Settings: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [savedMsg, setSavedMsg] = useState(false);
-
-  useEffect(() => {
-    loadSettings();
-  }, []);
 
   const loadSettings = async () => {
     setLoading(true);
@@ -23,6 +19,10 @@ export const Settings: React.FC = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    loadSettings();
+  }, []);
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();

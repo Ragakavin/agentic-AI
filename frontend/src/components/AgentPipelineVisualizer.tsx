@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
   FileText, Scan, Calculator, Percent, Copy, SplitSquareVertical,
-  Building2, ShieldAlert, BrainCircuit, CheckSquare, ChevronDown, ChevronRight, Wrench
+  Building2, ShieldAlert, BrainCircuit, CheckSquare, Wrench
 } from 'lucide-react';
 import { AgentRun } from '../types';
 

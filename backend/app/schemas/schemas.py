@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import Optional, Any
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 # Auth Schemas
 class Token(BaseModel):
@@ -19,8 +19,7 @@ class UserOut(BaseModel):
     role: str
     is_active: bool
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 # Extracted Field with Confidence and Location
 class FieldValueConfidence(BaseModel):
@@ -113,8 +112,7 @@ class AgentToolCallOut(BaseModel):
     status: str
     timestamp: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class AgentRunOut(BaseModel):
     id: int
@@ -129,8 +127,7 @@ class AgentRunOut(BaseModel):
     completed_at: Optional[datetime] = None
     tool_calls: list[AgentToolCallOut] = []
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 # Invoice Schemas
 class InvoiceSummaryOut(BaseModel):
@@ -152,8 +149,7 @@ class InvoiceSummaryOut(BaseModel):
     file_type: str
     created_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class InvoiceDetailOut(InvoiceSummaryOut):
     original_filename: str
@@ -215,8 +211,7 @@ class VendorOut(BaseModel):
     bank_account: Optional[str] = None
     bank_name: Optional[str] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 # Purchase Order Schemas
 class POItemOut(BaseModel):
@@ -227,8 +222,7 @@ class POItemOut(BaseModel):
     tax_rate: float
     total_price: float
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class PurchaseOrderOut(BaseModel):
     id: int
@@ -243,8 +237,7 @@ class PurchaseOrderOut(BaseModel):
     status: str
     items: list[POItemOut] = []
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 # Notification & Audit Schemas
 class NotificationOut(BaseModel):
@@ -258,8 +251,7 @@ class NotificationOut(BaseModel):
     action_url: Optional[str] = None
     created_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class AuditLogOut(BaseModel):
     id: int
@@ -273,8 +265,7 @@ class AuditLogOut(BaseModel):
     before_state: Optional[dict[str, Any]] = None
     after_state: Optional[dict[str, Any]] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 # AI Assistant Schemas
 class ChatMessage(BaseModel):

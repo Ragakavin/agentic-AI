@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
 import {
-  Upload, FileText, CheckCircle2, AlertTriangle, Play,
-  RefreshCw, ShieldCheck, Sparkles, ArrowRight
+  Upload, Play, Sparkles, ArrowRight
 } from 'lucide-react';
 import { api } from '../services/api';
 

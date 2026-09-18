@@ -1,24 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import {
-  Activity, CheckCircle2, AlertTriangle, Clock, Wrench, RefreshCw,
-  Terminal, ShieldCheck, ChevronDown, ChevronRight
-} from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Clock, RefreshCw, Terminal } from 'lucide-react';
 import { api } from '../services/api';
 import { AgentOverview, AgentRun } from '../types';
 
 export const AgentMonitor: React.FC = () => {
   const [agents, setAgents] = useState<AgentOverview[]>([]);
   const [recentRuns, setRecentRuns] = useState<AgentRun[]>([]);
-  const [loading, setLoading] = useState(true);
   const [selectedRun, setSelectedRun] = useState<AgentRun | null>(null);
 
-  useEffect(() => {
-    loadAgentData();
-    const interval = setInterval(loadAgentData, 8000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const loadAgentData = async () => {
+  const loadAgentData = useCallback(async () => {
     try {
       const [overview, runs] = await Promise.all([
         api.getAgentsOverview(),
@@ -26,13 +16,17 @@ export const AgentMonitor: React.FC = () => {
       ]);
       setAgents(overview);
       setRecentRuns(runs);
-      if (runs.length > 0 && !selectedRun) setSelectedRun(runs[0]);
+      setSelectedRun(prev => prev || (runs.length > 0 ? runs[0] : null));
     } catch (err) {
       console.error(err);
-    } finally {
-      setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    loadAgentData();
+    const interval = setInterval(loadAgentData, 8000);
+    return () => clearInterval(interval);
+  }, [loadAgentData]);
 
   return (
     <div className="space-y-6 animate-fadeIn pb-16">

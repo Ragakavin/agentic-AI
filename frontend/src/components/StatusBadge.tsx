@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckCircle2, AlertTriangle, XCircle, Clock, ShieldCheck, HelpCircle } from 'lucide-react';
+import { CheckCircle2, AlertTriangle, XCircle, Clock, HelpCircle } from 'lucide-react';
 
 interface StatusBadgeProps {
   status?: string;

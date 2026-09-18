@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Building2, Search, AlertTriangle, ShieldCheck, ArrowUpRight, RefreshCw, DollarSign } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Search, ArrowUpRight, RefreshCw } from 'lucide-react';
 import { api } from '../services/api';
 import { Vendor } from '../types';
 
@@ -12,12 +12,7 @@ export const Vendors: React.FC<VendorsProps> = ({ onNavigate }) => {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
 
-  useEffect(() => {
-    loadVendors();
-  }, []);
-
-  const loadVendors = async () => {
-    setLoading(true);
+  const loadVendors = useCallback(async () => {
     try {
       const data = await api.getVendors();
       setVendors(data);
@@ -26,7 +21,11 @@ export const Vendors: React.FC<VendorsProps> = ({ onNavigate }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    loadVendors();
+  }, [loadVendors]);
 
   const filtered = vendors.filter(v =>
     v.name.toLowerCase().includes(search.toLowerCase()) ||

@@ -1,23 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { ShoppingCart, Search, RefreshCw, FileText, CheckCircle2, ChevronRight } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { RefreshCw } from 'lucide-react';
 import { api } from '../services/api';
 import { PurchaseOrder } from '../types';
 
 interface PurchaseOrdersProps {
-  onNavigate: (page: string, param?: any) => void;
+  onNavigate?: (page: string, param?: any) => void;
 }
 
-export const PurchaseOrders: React.FC<PurchaseOrdersProps> = ({ onNavigate }) => {
+export const PurchaseOrders: React.FC<PurchaseOrdersProps> = ({ onNavigate: _onNavigate }) => {
   const [orders, setOrders] = useState<PurchaseOrder[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedPO, setSelectedPO] = useState<PurchaseOrder | null>(null);
 
-  useEffect(() => {
-    loadOrders();
-  }, []);
-
-  const loadOrders = async () => {
-    setLoading(true);
+  const loadOrders = useCallback(async () => {
     try {
       const data = await api.getPurchaseOrders();
       setOrders(data);
@@ -27,7 +22,11 @@ export const PurchaseOrders: React.FC<PurchaseOrdersProps> = ({ onNavigate }) =>
     } finally {
       setLoading(false);
     }
-  };
+  }, [selectedPO]);
+
+  useEffect(() => {
+    loadOrders();
+  }, [loadOrders]);
 
   return (
     <div className="space-y-6 animate-fadeIn pb-16">

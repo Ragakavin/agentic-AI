@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Bell, CheckCircle2, AlertTriangle, ShieldAlert, Check, RefreshCw } from 'lucide-react';
+import { CheckCircle2, AlertTriangle, ShieldAlert, Check, RefreshCw } from 'lucide-react';
 import { api } from '../services/api';
 import { NotificationItem } from '../types';
 
@@ -12,10 +12,6 @@ export const Notifications: React.FC<NotificationsProps> = ({ onNavigate }) => {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<'ALL' | 'CRITICAL' | 'WARNING' | 'SUCCESS'>('ALL');
 
-  useEffect(() => {
-    loadData();
-  }, []);
-
   const loadData = async () => {
     setLoading(true);
     try {
@@ -27,6 +23,10 @@ export const Notifications: React.FC<NotificationsProps> = ({ onNavigate }) => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    loadData();
+  }, []);
 
   const handleMarkRead = async (id: number) => {
     await api.markNotificationRead(id);
@@ -92,7 +92,6 @@ export const Notifications: React.FC<NotificationsProps> = ({ onNavigate }) => {
           filtered.map(n => {
             const isCrit = n.severity === 'CRITICAL';
             const isWarn = n.severity === 'WARNING';
-            const isSuccess = n.severity === 'SUCCESS';
 
             return (
               <div

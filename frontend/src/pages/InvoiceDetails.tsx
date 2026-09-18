@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   FileText, ArrowLeft, CheckCircle2, AlertTriangle, XCircle,
   RefreshCw, Download, FileSpreadsheet, ShieldAlert, BrainCircuit,
-  Building2, ShoppingCart, Calculator, Percent, Copy, Check, MessageSquare
+  ShoppingCart, Calculator
 } from 'lucide-react';
 import { api } from '../services/api';
 import { InvoiceDetail } from '../types';
@@ -24,11 +24,7 @@ export const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({ invoiceId, onNav
   const [reviewSubmitting, setReviewSubmitting] = useState(false);
   const [reportGenerating, setReportGenerating] = useState<string | null>(null);
 
-  useEffect(() => {
-    loadDetail();
-  }, [invoiceId]);
-
-  const loadDetail = async () => {
+  const loadDetail = useCallback(async () => {
     setLoading(true);
     try {
       const data = await api.getInvoiceDetail(invoiceId);
@@ -38,7 +34,11 @@ export const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({ invoiceId, onNav
     } finally {
       setLoading(false);
     }
-  };
+  }, [invoiceId]);
+
+  useEffect(() => {
+    loadDetail();
+  }, [loadDetail]);
 
   const handleReanalyze = async () => {
     setIsReanalyzing(true);

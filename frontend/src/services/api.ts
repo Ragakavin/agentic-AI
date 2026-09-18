@@ -1,6 +1,6 @@
 import {
   InvoiceSummary, InvoiceDetail, AgentOverview, AgentRun, Vendor,
-  PurchaseOrder, ReviewTask, NotificationItem, AuditLogItem, AnalyticsData
+  PurchaseOrder, NotificationItem, AuditLogItem, AnalyticsData
 } from '../types';
 
 const API_BASE = '/api';

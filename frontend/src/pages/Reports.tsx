@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FileDown, Download, FileSpreadsheet, FileText, RefreshCw, CheckCircle2, Search } from 'lucide-react';
+import { Download, FileSpreadsheet, FileText, RefreshCw } from 'lucide-react';
 import { api } from '../services/api';
 import { InvoiceSummary } from '../types';
 
@@ -9,10 +9,6 @@ export const Reports: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [generatingId, setGeneratingId] = useState<number | null>(null);
   const [selectedFormat, setSelectedFormat] = useState<'PDF' | 'EXCEL' | 'CSV'>('PDF');
-
-  useEffect(() => {
-    loadData();
-  }, []);
 
   const loadData = async () => {
     setLoading(true);
@@ -29,6 +25,10 @@ export const Reports: React.FC = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    loadData();
+  }, []);
 
   const handleGenerate = async (invoiceId: number) => {
     setGeneratingId(invoiceId);

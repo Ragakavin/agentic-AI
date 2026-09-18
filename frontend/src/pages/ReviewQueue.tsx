@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
-  CheckSquare, AlertTriangle, CheckCircle2, XCircle, FileText,
-  RefreshCw, MessageSquare, ArrowRight, ShieldAlert, Sparkles
+  AlertTriangle, CheckCircle2, XCircle,
+  RefreshCw, MessageSquare, ArrowRight
 } from 'lucide-react';
 import { api } from '../services/api';
 import { InvoiceSummary } from '../types';
-import { StatusBadge } from '../components/StatusBadge';
 
 interface ReviewQueueProps {
   onNavigate: (page: string, param?: any) => void;
@@ -18,11 +17,7 @@ export const ReviewQueue: React.FC<ReviewQueueProps> = ({ onNavigate }) => {
   const [comment, setComment] = useState('');
   const [actionLoading, setActionLoading] = useState(false);
 
-  useEffect(() => {
-    loadReviewQueue();
-  }, []);
-
-  const loadReviewQueue = async () => {
+  const loadReviewQueue = useCallback(async () => {
     setLoading(true);
     try {
       const data = await api.getInvoices({ status: 'review_required' });
@@ -35,7 +30,11 @@ export const ReviewQueue: React.FC<ReviewQueueProps> = ({ onNavigate }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [selectedInvoice]);
+
+  useEffect(() => {
+    loadReviewQueue();
+  }, [loadReviewQueue]);
 
   const handleAction = async (decision: 'APPROVE' | 'REJECT') => {
     if (!selectedInvoice) return;

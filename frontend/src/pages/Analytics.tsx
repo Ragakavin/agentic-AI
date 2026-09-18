@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import {
-  BarChart3, RefreshCw, TrendingUp, ShieldCheck, CheckCircle2,
-  AlertTriangle, DollarSign, Clock
-} from 'lucide-react';
+import { RefreshCw } from 'lucide-react';
 import {
   ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip,
-  PieChart, Pie, Cell, BarChart, Bar, CartesianGrid, Legend
+  BarChart, Bar, CartesianGrid
 } from 'recharts';
 import { api } from '../services/api';
 import { AnalyticsData } from '../types';
@@ -13,10 +10,6 @@ import { AnalyticsData } from '../types';
 export const Analytics: React.FC = () => {
   const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    loadData();
-  }, []);
 
   const loadData = async () => {
     try {
@@ -28,6 +21,10 @@ export const Analytics: React.FC = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    loadData();
+  }, []);
 
   if (loading || !analytics) {
     return (

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Bell, Search, Upload, Play, RefreshCw, UserCheck, Check,
-  AlertTriangle, Shield, CheckCircle2, ChevronDown, ExternalLink
+  Bell, Search, Upload, Play, RefreshCw, Check,
+  AlertTriangle, Shield, CheckCircle2, ChevronDown
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { api } from '../services/api';
@@ -21,12 +21,6 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, onRefresh }) => {
   const [showDemoCases, setShowDemoCases] = useState(false);
   const [triggeringDemo, setTriggeringDemo] = useState(false);
 
-  useEffect(() => {
-    loadNotifications();
-    const interval = setInterval(loadNotifications, 10000);
-    return () => clearInterval(interval);
-  }, []);
-
   const loadNotifications = async () => {
     try {
       const { unread_count } = await api.getUnreadNotificationCount();
@@ -37,6 +31,12 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, onRefresh }) => {
       // ignore
     }
   };
+
+  useEffect(() => {
+    loadNotifications();
+    const interval = setInterval(loadNotifications, 10000);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleRunDemo = async (caseKey: string) => {
     setTriggeringDemo(true);

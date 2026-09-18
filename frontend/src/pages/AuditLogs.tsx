@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { History, Search, RefreshCw, Terminal, User, Bot } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Search, RefreshCw, Terminal, User, Bot } from 'lucide-react';
 import { api } from '../services/api';
 import { AuditLogItem } from '../types';
 
@@ -10,11 +10,7 @@ export const AuditLogs: React.FC = () => {
   const [actorType, setActorType] = useState('ALL');
   const [selectedLog, setSelectedLog] = useState<AuditLogItem | null>(null);
 
-  useEffect(() => {
-    loadLogs();
-  }, [actorType]);
-
-  const loadLogs = async () => {
+  const loadLogs = useCallback(async () => {
     setLoading(true);
     try {
       const data = await api.getAuditLogs({
@@ -28,7 +24,11 @@ export const AuditLogs: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [actorType, search, selectedLog]);
+
+  useEffect(() => {
+    loadLogs();
+  }, [loadLogs]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
